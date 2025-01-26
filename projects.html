@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lvnadev</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://media0.giphy.com/media/tnPxFTth7qoDiw1rnm/giphy.gif?cid=6c09b952d6lqe98oxs9leoezie9ykj6d8qff7v1pqye6l6t0&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            color: white;
+        }
+        .projects-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 1200px;
+            text-align: left;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .project-card h2 {
+            font-size: 28px;
+        }
+        .project-card p {
+            font-size: 16px;
+            color: #ccc;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background: lightgray;
+        }
+        .music-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 14px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 10px;
+        }
+        .music-button:hover {
+            background: lightgray;
+        }
+        .music-info {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .vinyl {
+            width: 100px;
+            height: 100px;
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .song-info {
+            margin-left: 10px;
+            text-align: left;
+        }
+        .song-title {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .song-artist {
+            font-size: 16px;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-music" loop autoplay>
+        <source src="Prayer.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="music-toggle" class="music-button" onclick="toggleMusic()">Play Music</button>
+    
+    <div class="projects-container">
+        <h1>My Projects</h1>
+
+        <div class="project-card">
+            <h2>Orca</h2>
+            <p>A live C# executor for the game Gorilla Tag VR.</p>
+            <a href="https://orcasense.cc" class="button">Website</a>
+        </div>
+
+        <div class="project-card">
+            <h2>Voyager</h2>
+            <p>A Unity game inspired by Kerbal Space Program and Spaceflight Simulator.</p>
+            <a href="https://www.youtube.com/watch?v=yPYZpwSpKmA" class="button">Download</a>
+        </div>
+
+        <div class="project-card">
+            <h2>SatelliteTrack</h2>
+            <p>A website to track all probes/satellites outside of Earths orbit. (WIP)</p>
+
+        </div>
+    </div>
+
+    <div class="music-info">
+        <img src="vinyl.png" alt="vinyl" class="vinyl">
+        <div class="song-info">
+            <p class="song-title">Prayer</p>
+            <p class="song-artist">Kendrick Lamar</p>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.textContent = 'Muted';
+            } else {
+                music.play();
+                musicToggle.textContent = 'Playing';
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
