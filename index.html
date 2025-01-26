@@ -3,149 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>- . - - . - - - - . </title>
+    <title>lvnadev</title>
     <style>
         body {
             margin: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        .container {
-            position: relative;
-            height: 100vh;
-            width: 100vw;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            background: url('https://media0.giphy.com/media/tnPxFTth7qoDiw1rnm/giphy.gif?cid=6c09b952d6lqe98oxs9leoezie9ykj6d8qff7v1pqye6l6t0&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            color: white;
         }
-
-        .falling-image {
-            position: absolute;
-            width: 100px; /* smaller size */
-            height: auto;
-            filter: brightness(0.5);
-            transform-origin: center;
+        .profile-container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
         }
-
-        .text {
-            position: absolute;
-            left: -150px;
-            font-size: 18px;
-            color: #fff;
-            text-transform: lowercase;
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
         }
-
-        .bottom-image {
+        .buttons {
             margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background: rgb(255, 255, 255);
+            color: black;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background: lightgray;
+        }
+        .music-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 14px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 10px;
+        }
+        .music-button:hover {
+            background: lightgray;
+        }
+        .music-info {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .vinyl {
             width: 100px;
+            height: 100px;
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .song-info {
+            margin-left: 10px;
+            text-align: left;
+        }
+        .song-title {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .song-artist {
+            font-size: 16px;
+            margin-top: -15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img class="image" src="Mr._Washee_Washee.webp" alt="Image" width="200">
-        <div class="text">how do i remove him</div>
-    </div>
-    
-    <img class="bottom-image" src="201887.png" alt="clkck her to downl">
-    
-    <!-- Audio Player -->
-    <audio autoplay loop>
-        <source src="chickfila.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
+    <audio id="bg-music" loop autoplay>
+        <source src="Prayer.mp3" type="audio/mpeg">
+        d
     </audio>
-
+    <button id="music-toggle" class="music-button" onclick="toggleMusic()">Play Music</button>
+    <div class="profile-container">
+        <img src="profile.png" alt="profile" class="profile-img">
+        <h1>Luna</h1>
+        <p class="subtitle">Beginner astronomer & programmer</p>
+        <div class="buttons">
+            <a href="https://linktr.ee/lvnadev" class="button">Socials</a>
+            <a href="projects.html" class="button">Projects</a>
+            <a href="https://github.com/lvnadev/lvnadev.github.io" class="button">GitHub</a>
+        </div>
+    </div>
+    <div class="music-info">
+        <img src="vinyl.png" alt="vinyl" class="vinyl">
+        <div class="song-info">
+            <p class="song-title">Prayer</p>
+            <p class="song-artist">Kendrick Lamar</p>
+        </div>
+    </div>
     <script>
-        // Physics variables
-        const gravity = 0.1;  // Increased gravity for more fall speed
-        const friction = 0.98; // Slightly higher friction to slow horizontal movement faster
-        const bounceFactor = 1; // Reduced bounce factor for more bounces
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        let isPlaying = false;
 
-        const container = document.querySelector('.container');
-        const numImages = 10;
-        const imagePath = 'Mr._Washee_Washee.webp';
-        const images = [];
-
-        // Create 10 falling images
-        for (let i = 0; i < numImages; i++) {
-            const img = document.createElement('img');
-            img.src = imagePath;
-            img.classList.add('falling-image');
-
-            // Randomly position the images within the container's width and height
-            const randomX = Math.random() * window.innerWidth;
-            const randomY = Math.random() * window.innerHeight;
-            img.style.left = `${randomX}px`;
-            img.style.top = `${randomY}px`;
-            
-            img.style.transform = `rotate(${Math.random() * 360}deg)`; // Random initial rotation
-            container.appendChild(img);
-            images.push({
-                element: img,
-                x: randomX,
-                y: randomY,
-                vx: Math.random() * 6 - 3, // Random horizontal velocity with more variation
-                vy: Math.random() * 5 + 5, // Higher initial vertical velocity
-                rotation: Math.random() * 360,
-                rotationSpeed: Math.random() * 2 - 1 // Random rotation speed
-            });
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.textContent = 'Muted';
+            } else {
+                music.play();
+                musicToggle.textContent = 'Playing';
+            }
+            isPlaying = !isPlaying;
         }
-
-        // Physics update function
-        function updatePhysics() {
-            images.forEach((imgData) => {
-                const { element, x, y, vx, vy, rotation, rotationSpeed } = imgData;
-
-                // Apply gravity
-                const newVy = vy + gravity;
-
-                // Update position
-                const newX = x + vx;
-                const newY = y + newVy;
-
-                // Handle bounce off the floor (bottom of the screen)
-                if (newY >= window.innerHeight - 50) {  // The "ground" is the bottom of the screen
-                    imgData.vy = -vy * bounceFactor; // Reverse vertical velocity and reduce it
-                    imgData.vx *= friction; // Apply friction to horizontal speed
-                    imgData.y = window.innerHeight - 50; // Prevent going below the floor (ensuring it stays at the bottom)
-                } else if (newY <= 0) {
-                    imgData.vy = -vy * bounceFactor; // Bounce from the top of the screen
-                    imgData.y = 0; // Prevent going above the screen
-                } else {
-                    imgData.y = newY; // Update vertical position
-                    imgData.vy = newVy; // Update vertical velocity
-                }
-
-                // Handle bounce off the sides of the screen
-                if (newX >= window.innerWidth - 50) {
-                    imgData.vx = -vx * bounceFactor; // Reverse horizontal velocity and reduce it
-                    imgData.x = window.innerWidth - 50; // Prevent going off the right side
-                } else if (newX <= 0) {
-                    imgData.vx = -vx * bounceFactor; // Bounce from the left side
-                    imgData.x = 0; // Prevent going off the left side
-                } else {
-                    imgData.x = newX; // Update horizontal position
-                }
-
-                // Handle rotation
-                imgData.rotation += rotationSpeed;
-
-                // Update image position and rotation
-                element.style.left = `${imgData.x}px`;
-                element.style.top = `${imgData.y}px`;
-                element.style.transform = `rotate(${imgData.rotation}deg)`;
-            });
-        }
-
-        // Main animation loop
-        function animate() {
-            updatePhysics();
-            requestAnimationFrame(animate); // Keep animating
-        }
-
-        animate(); // Start the animation
     </script>
 </body>
 </html>
-
