@@ -3,19 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi Page</title>
+    <title>Image with Text and Audio</title>
     <style>
         body {
-            text-align: center;
-            margin-top: 20%;
-            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-        h1 {
-            font-size: 100px;
+
+        .container {
+            position: relative;
+            text-align: center;
+        }
+
+        img.main-image {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .text {
+            position: absolute;
+            left: -150px;
+            font-size: 18px;
+            color: #333;
+            text-transform: lowercase;
+        }
+
+        .bottom-image {
+            margin-top: 20px;
+            width: 100px; /* Adjust the size as needed */
         }
     </style>
 </head>
 <body>
-    <h1>Hi</h1>
+    <div class="container">
+        <img class="main-image" src="Mr._Washee_Washee.webp" alt="Image" width="200">
+        <div class="text">how do i remove him</div>
+    </div>
+    
+    <img class="bottom-image" src="201887.png" alt="clkck her to downl">
+    
+    <!-- Audio Player -->
+    <audio autoplay loop>
+        <source src="chickfila.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 </body>
 </html>
