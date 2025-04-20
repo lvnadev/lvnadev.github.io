@@ -19,7 +19,7 @@
   "BundleLargeSafeAccountSign": " ",
   "BundleLargeSign": "DISCORD.GG/CHRISTMASTAG",
   "BundleLargeSign_SafeAccount": " ",
-  "CreditsData": "[{\"Title\":\"DEV TEAM\",\"Entries\":[\"viper the sigma\",\ncredits to bxt for backends\"]}]",
+  "CreditsData": "[{\"Title\":\"DEV TEAM\",\"Entries\":[\"apocareal\",\ni made the mimic\"]}]",
   "DeployFeatureFlags": "{\"flags\":[{\"name\":\"2024-05-ReturnCurrentVersionV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-05-ReturnMyOculusHashV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-05-TryDistributeCurrencyV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-05-AddOrRemoveDLCOwnershipV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-05-BroadcastMyRoomV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-06-CosmeticsAuthenticationV2\",\"value\":0,\"valueType\":\"percent\"},{\"name\":\"2024-08-KIDIntegrationV1\",\"value\":0,\"valueType\":\"percent\",\"alwaysOnForUsers\":[]}]}",
   "EmptyFlashbackText": "DISCORD.GG/CHRISTMASTAG",
   "EnableCustomAuthentication": "true",
