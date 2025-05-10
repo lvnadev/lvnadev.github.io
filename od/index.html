@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orion Drift - Player Profile</title>
+    <script>
+    window.onload = function () {
+        const userId = getUserIdFromURL() || '8488257414548619';
+        const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlfaWQiOiJhNTY1ZGE1NC1mNDFhLTQ5ZmYtYTNhOC02YTVlYjIwMDQyYjMiLCJrZXlfdHlwZSI6InVzZXIiLCJvd25lcl9pZCI6Ijg0ODgyNTc0MTQ1NDg2MTkiLCJjcmVhdGVkX2F0IjoiMjAyNS0wNS0xMCAyMDo1MjowNC4yOTIxMjAifQ.UjhRlcG1da4yRamqfOoxARIc5Pcyg8lbRfgu3ZBJpV8';
+
+        const apiUrl = `https://api.oriondrift.net/v1/users/${userId}`;
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: API_KEY ? { 'X-Api-Key': API_KEY } : {}
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('User not found');
+            return response.json();
+        })
+        .then(data => updateProfileFromApi(data))
+        .catch(error => {
+            console.error('Failed to fetch user data:', error);
+            document.querySelectorAll('.profile-name').forEach(el => {
+                el.textContent = 'Error Loading';
+            });
+        });
+
+        function getUserIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('user_id');
+        }
+
+        function loadProfileImage(imageUrl) {
+            if (!imageUrl) return;
+            const profileImg = document.getElementById('profileImage');
+            profileImg.src = imageUrl;
+            profileImg.onerror = function () {
+                profileImg.src = 'https://files.catbox.moe/dvlkhg.png';
+            };
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) + ' ' + date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function updateProfileFromApi(apiData) {
+            document.querySelectorAll('.profile-name').forEach(el => {
+                el.textContent = apiData.username || 'Unknown User';
+            });
+
+            document.getElementById('userId').textContent = apiData.user_id || 'Unknown';
+            document.getElementById('platform').textContent = apiData.platform || 'Unknown';
+            document.getElementById('created').textContent = formatDate(apiData.created);
+            document.getElementById('lastLogin').textContent = formatDate(apiData.last_login);
+            const banContainer = document.getElementById('banContainer');
+            const noBansMessage = document.getElementById('noBansMessage');
+
+            if (apiData.ban && Array.isArray(apiData.ban) && apiData.ban.length > 0) {
+                banContainer.style.display = 'block';
+                noBansMessage.style.display = 'none';
+            } else {
+                banContainer.style.display = 'none';
+                noBansMessage.style.display = 'block';
+            }
+
+            if (apiData.avatar_url) {
+                loadProfileImage(apiData.avatar_url);
+            }
+        }
+    };
+</script>
+    <style>
+        :root {
+            --space-black: #0a0e17;
+            --space-dark: #141a26;
+            --space-blue: #1e293b;
+            --space-highlight: #4f78ff;
+            --text-primary: #e6edf7;
+            --text-secondary: #94a3b8;
+            --danger: #ef4444;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--space-black);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .profile-card {
+            background-color: var(--space-dark);
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--space-highlight), #a78bfa);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid var(--space-highlight);
+        }
+        
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin: 0 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        table td {
+            padding: 10px 0;
+            font-size: 16px;
+        }
+        
+        table td:first-child {
+            color: var(--text-secondary);
+            width: 40%;
+        }
+        
+        table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+        
+        .ban-item {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(239, 68, 68, 0.1);
+            margin-bottom: 15px;
+            border-left: 3px solid var(--danger);
+        }
+        
+        .ban-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .ban-reason {
+            font-weight: 600;
+        }
+        
+        .ban-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .ban-details, .ban-admin {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .no-bans {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 15px 0;
+        }
+        
+        @media (max-width: 480px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            table td:last-child {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-pic">
+                    <img id="profileImage" src="https://files.catbox.moe/dvlkhg.png" alt="Player Avatar">
+                </div>
+                <h1 class="profile-name">Loading...</h1>
+            </div>
+            
+            <h3 class="card-title">Player Information</h3>
+            <table>
+                <tr>
+                    <td>Username</td>
+                    <td class="profile-name">Loading...</td>
+                </tr>
+                <tr>
+                    <td>User ID</td>
+                    <td id="userId">Loading...</td>
+                </tr>
+                <tr>
+                    <td>Platform</td>
+                    <td id="platform">Loading...</td>
+                </tr>
+                <tr>
+                    <td>Account Created</td>
+                    <td id="created">Loading...</td>
+                </tr>
+                <tr>
+                    <td>Last Login</td>
+                    <td id="lastLogin">Loading...</td>
+                </tr>
+            </table>
+            
+            <h3 class="card-title">Ban History</h3>
+            
+            <div id="banContainer" style="display: none;">
+                <div class="ban-item">
+                    <div class="ban-header">
+                        <div class="ban-reason">Temporary Ban (24h)</div>
+                        <div class="ban-date">March 23, 2025</div>
+                    </div>
+                    <div class="ban-details">Disruptive behavior - AFK during ranked match</div>
+                    <div class="ban-admin">Admin: NebulaSix</div>
+                </div>
+                
+                <table>
+                    <tr>
+                        <td>Total Bans</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Last Ban</td>
+                        <td>48 days ago</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="noBansMessage" class="no-bans">
+                No active bans on this account
+            </div>
+        </div>
+    </div>
+</body>
+</html>
