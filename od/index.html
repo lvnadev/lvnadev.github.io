@@ -6,15 +6,10 @@
     <title>Orion Drift - Player Profile</title>
     <script>
     window.onload = function () {
-        const userId = getUserIdFromURL() || '8488257414548619';
-        const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlfaWQiOiJhNTY1ZGE1NC1mNDFhLTQ5ZmYtYTNhOC02YTVlYjIwMDQyYjMiLCJrZXlfdHlwZSI6InVzZXIiLCJvd25lcl9pZCI6Ijg0ODgyNTc0MTQ1NDg2MTkiLCJjcmVhdGVkX2F0IjoiMjAyNS0wNS0xMCAyMDo1MjowNC4yOTIxMjAifQ.UjhRlcG1da4yRamqfOoxARIc5Pcyg8lbRfgu3ZBJpV8';
+        // Using the new endpoint as specified
+        const apiUrl = 'https://oriondrift.vercel.app/apoca';
 
-        const apiUrl = `https://api.oriondrift.net/v1/users/${userId}`;
-
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: API_KEY ? { 'X-Api-Key': API_KEY } : {}
-        })
+        fetch(apiUrl)
         .then(response => {
             if (!response.ok) throw new Error('User not found');
             return response.json();
@@ -26,11 +21,6 @@
                 el.textContent = 'Error Loading';
             });
         });
-
-        function getUserIdFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('user_id');
-        }
 
         function loadProfileImage(imageUrl) {
             if (!imageUrl) return;
@@ -272,11 +262,11 @@
             <div id="banContainer" style="display: none;">
                 <div class="ban-item">
                     <div class="ban-header">
-                        <div class="ban-reason">Temporary Ban (24h)</div>
+                        <div class="ban-reason">placeholder</div>
                         <div class="ban-date">March 23, 2025</div>
                     </div>
-                    <div class="ban-details">Disruptive behavior - AFK during ranked match</div>
-                    <div class="ban-admin">Admin: NebulaSix</div>
+                    <div class="ban-details">placeholder</div>
+                    <div class="ban-admin">Admin: lemming idk</div>
                 </div>
                 
                 <table>
